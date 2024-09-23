@@ -68,11 +68,11 @@ export default function App() {
             </div>
             <div className="grid-item">
               <h2>Visibility</h2>
-              <div className="value">{data.currentConditions.visibility * 1.60934} km</div>
+              <div className="value">{(data.currentConditions.visibility * 1.60934).toFixed(0)} km</div>
             </div>
             <div className="grid-item">
               <h2>Wind Speed</h2>
-              <div className="value">{data.currentConditions.windspeed * 1.60934} km/h</div>
+              <div className="value">{(data.currentConditions.windspeed * 1.60934).toFixed(0)} km/h</div>
             </div>
             <div className="grid-item">
               <h2>Chance of Rain</h2>
