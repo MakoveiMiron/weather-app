@@ -1,35 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import getCityWeather from './services/apiCall';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [cityName, setCityName] = useState("");
+  const [searched, setSearched] = useState(false);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const handleChange = (e) => {
+    setCityName(e.target.value);
+  };
+
+  const handleSearch = async () => {
+    setLoading(true); 
+    let data = await getCityWeather(cityName);
+    setSearched(true);
+    setData(data);
+    setLoading(false); 
+    console.log(data);
+  };
+
+  const handleDelete = () => {
+    setSearched(false);
+    setCityName("");
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div id='blur'></div>
+      <div className='search-box'>
+        <div className='input-container'>
+          <input
+            value={cityName}
+            onChange={handleChange}
+            type='text'
+            id='cityName'
+            placeholder='City Name'
+            required
+          />
+          {searched ? <p onClick={handleDelete}>X</p> : null}
+        </div>
+        <button id='button' onClick={handleSearch}>Check Weather</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+      {loading ? (
+        <div className="loading-text">Loading...</div> // Show loading text
+      ) : searched ? (
+        <div className="weather-dashboard">
+          <h1>{cityName}</h1>
+          <div className="grid-container">
+            <div className="grid-item">
+              <h2>Current Temperature</h2>
+              <div className="value">{((data.currentConditions.temp - 32) * (5 / 9)).toFixed(1)}°C</div>
+            </div>
+            <div className="grid-item">
+              <h2>Sunrise</h2>
+              <div className="value">{data.currentConditions.sunrise}</div>
+            </div>
+            <div className="grid-item">
+              <h2>Sunset</h2>
+              <div className="value">{data.currentConditions.sunset}</div>
+            </div>
+            <div className="grid-item">
+              <h2>Air Pressure</h2>
+              <div className="value">{data.currentConditions.pressure} hPa</div>
+            </div>
+            <div className="grid-item">
+              <h2>Visibility</h2>
+              <div className="value">{data.currentConditions.visibility} miles</div>
+            </div>
+            <div className="grid-item">
+              <h2>Wind Speed</h2>
+              <div className="value">{data.currentConditions.windspeed} mph</div>
+            </div>
+            <div className="grid-item">
+              <h2>Chance of Rain</h2>
+              <div className="value">{data.currentConditions.precipprob}%</div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
