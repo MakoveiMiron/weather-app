@@ -21,8 +21,8 @@
 .input-container {
   margin-left: auto;
   margin-right: auto;
-    display: flex; 
-    align-items: center; 
+  display: flex; 
+  align-items: center; 
 }
 
 #cityName {
@@ -83,89 +83,72 @@ body {
   z-index: 1; 
 }
 
+/* Grid Container */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px; 
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for smaller items */
+  gap: 15px; /* Reduced gap between items */
+  padding: 15px;
 }
 
+/* Grid Items */
 .grid-item {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgba(255, 255, 255, 0.8); 
-  padding: 20px;
-  border-radius: 10px;
-  align-content: center;
-  height: 200px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  position: relative; 
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  padding: 1vw; /* Smaller padding */
+  border-radius: 8px; /* Smaller radius for corners */
+  height: auto; /* Let the height adjust based on content */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Slightly smaller shadow */
+  position: relative;
+  text-align: center;
+  transition: transform 0.3s ease; /* Add a hover effect for interaction */
+}
+
+/* Ensure text color remains opaque */
+.grid-item h2, 
+.grid-item .value {
+  color: #000; /* Black text */
+  opacity: 1; /* Ensure text is fully opaque */
+}
+
+/* Hover Effect */
+.grid-item:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
 h1 {
-  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
   text-align: center;
-  font-size: 65px;
-  margin-bottom:200px;
-  color: #333; 
+  margin-bottom: 100px;
+  font-size: 48px;
 }
 
-h2 {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  color: #333; 
-}
-
-.value {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
-
-
-.grid-item h2,
-.grid-item .value {
-  color: #333; 
-  opacity: 1; 
-}
-
-/* Media Queries for responsiveness */
-
-/* Tablet (up to 768px) */
+/* Adjust Layout for Smaller Screens */
 @media (max-width: 768px) {
-  #cityName {
-    width: 80%; 
-  }
-  
-  #button {
-    width: 80%; 
-  }
-  
   .grid-container {
-    grid-template-columns: repeat(2, 1fr); 
-  }
-}
-
-/* Mobile (up to 480px) */
-@media (max-width: 480px) {
-  #cityName {
-    width: 90%; 
-    font-size: large; 
-  }
-  
-  #button {
-    width: 90%; 
-  }
-  
-  .grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
   }
 
   .grid-item {
-    padding: 15px; 
+    padding: 10px; /* Slightly less padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+
+  .grid-item {
+    padding: 10px; /* Compact padding */
+  }
+
+  h2 {
+    font-size: 1em; /* Reduce further for mobile */
   }
 
   .value {
-    font-size: 20px; 
+    font-size: 0.9em; /* Reduce value size for mobile */
   }
 }
+
